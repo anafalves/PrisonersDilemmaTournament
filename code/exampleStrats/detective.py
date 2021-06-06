@@ -1,4 +1,3 @@
-import random
 import numpy as np
 
 # Strategy described in Nicky Case's "The Evolution of Trust"
@@ -7,11 +6,11 @@ import numpy as np
 # DETECTIVE: First: I analyze you. I start:
 # Cooperate, Cheat, Cooperate, Cooperate.
 # If you cheat back, I'll act like [Tit for Tat].
-# If you never cheta back, I'll act like [alwaysDefect],
+# If you never cheat back, I'll act like [alwaysDefect],
 # to exploit you. Elementary, my dear Watson.
 
 def strategy(history, memory):
-    testingSchedule = [1,0,1,1]
+    testingSchedule = [1,0,1,1] # cooperate, cheat, cooperate, cooperate
     gameLength = history.shape[1]
     shallIExploit = memory
     choice = None
