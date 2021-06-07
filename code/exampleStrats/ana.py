@@ -1,11 +1,11 @@
 # I start by cooperating
 # I forgive 3 cheats in a row. After 3, I cheat you back.
 # After a while, I see if you keep cheating.
-# If you started to cooperate, I cooperate back until the end of the game
+# If you started to cooperate, I cooperate back until next step, where i revise again if you cheat me twice in a row
 
-# For the outputs: the first value is just the move your strategy chooses to make,
-# with 0 being defect and 1 being cooperate. The second value is any memory you'd
-# like to retain into the next iteration. This can be 'None'.
+# This revision actually seems to screw up the results. If I don't add it, I can get the 2nd or 3rd place.
+# If I add it, I get between 3rd and 6th place. ¯\_(ツ)_/¯
+
 import random
 
 
@@ -13,13 +13,21 @@ import random
 def strategy(history, memory):
     cooperate = 1
     cheater = 0
-    choice = cooperate # i start by cooperating
+    choice = cooperate # I start by cooperating
 
-    # I see if yu cheat for 3 times in a row. If so, I cheat you back
-    if history.shape[1] >= 3 and history[1, -1] == cheater and history[1, -2] == cheater and history[1, -3] == cheater:    # and history[1,-2] == 0 and history[1,-3] == 0):
+    gameLength = history.shape[1]
+    gameStep = random.random()
+
+    # I see if you cheat for 3 times in a row. If so, I cheat you back
+    if gameLength >= 3 and history[1, -1] == cheater and history[1, -2] == cheater and history[1, -3] == cheater:    # and history[1,-2] == 0 and history[1,-3] == 0):
         choice = cheater
+
         # But i give you a second chance, and see if you have started to cooperate. If you do, I cooperate back
-        if history.shape[1] >= random.random() and history[1,-1] == cooperate:
+        if gameLength >= gameStep and history[1,-1] == cooperate:
             choice = cooperate
+
+        # Next step, where i revise again if you cheat me twice in a row. If so, I cheat you back
+        if gameLength >= gameStep * 2 and history[1, -1] == cheater and history[1, -2] == cheater:
+            choice = cheater
 
     return choice, None
